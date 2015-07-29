@@ -28,22 +28,22 @@ llvmFiles = []
 
 for file in args.files:
     extension = file.split(".")[-1]
-    
+
     # if it is an llvm file, we don't need to do anything
     # but if it is a c file, we need to compile it
 
     if extension == 'll':
         llvmFiles.append(file)
     elif extension == 'c':
-        
+
         # compile this into ll, then add it to the list
-        # if this is a compile only build, we need to output .o instead      
-        
+        # if this is a compile only build, we need to output .o instead
+
         if args.compile:
             subprocess.call(["clang", "-Oz", "-S", "-emit-llvm", file, "-o", ".".join(file.split(".")[0:-1]) + ".o"])
         else:
             subprocess.call(["clang", "-Oz", "-S", "-emit-llvm", file])
-  
+
         # this will now be the same file with a .ll extension
         # do some string twiddling and be on our way <3
 
@@ -71,7 +71,7 @@ inputFile = projectName + ".lll"
 meowcc = sys.argv[0][0:-len("scratchcc.py")] + "meowcc.js"
 
 if args.output:
-    subprocess.call("node " + meowcc + " "+inputFile+" > "+args.output, shell=True)    
+    subprocess.call("node " + meowcc + " "+inputFile+" > "+args.output, shell=True)
 elif args.project:
     subprocess.call("node " + meowcc + " "+inputFile+" "+args.username+" "+args.project, shell=True)
 else:
